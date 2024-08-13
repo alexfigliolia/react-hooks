@@ -60,6 +60,7 @@ import { useCallback } from "react";
 
 export const MyComponent = () => {
   const { setState, resetState, ...state } = useLoadingState();
+  // state = { loading: boolean, error: boolean | string, success: boolean }
 
   const onClick = useCallback(() => {
     setState("loading", true);
@@ -107,7 +108,7 @@ export const MyForm = () => {
     })
   });
 
-  const classes = useClassNames("my-button", state);
+  const classes = useClassNames("my-button", { error: !!error, success, loading });
 
   return (
     <form onSubmit={onSubmit}>
