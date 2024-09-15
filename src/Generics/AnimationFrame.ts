@@ -8,7 +8,7 @@ export class AnimationFrame {
       callback();
     });
     return () => {
-      this.clear(ID);
+      this.cancel(ID);
     };
   }
 
@@ -19,7 +19,7 @@ export class AnimationFrame {
     this.IDs.clear();
   }
 
-  public clear(ID: ReturnType<typeof requestAnimationFrame>) {
+  public cancel(ID: ReturnType<typeof requestAnimationFrame>) {
     if (ID && this.IDs.has(ID)) {
       cancelAnimationFrame(ID);
       this.IDs.delete(ID);

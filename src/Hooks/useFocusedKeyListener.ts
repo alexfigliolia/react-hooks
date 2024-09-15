@@ -3,13 +3,16 @@ import { FocusedKeyListener } from "Generics/FocusedKeyListener";
 import type { Callback } from "Types";
 import { useController } from "./useController";
 
-export const useFocusedKeyListener = (onEnter: Callback, ...keys: string[]) => {
+export const useFocusedKeyListener = (
+  callback: Callback,
+  ...keys: string[]
+) => {
   const activators = useMemo(() => (keys.length ? keys : ["Enter"]), [keys]);
   const controller = useController(
-    new FocusedKeyListener(onEnter, ...activators),
+    new FocusedKeyListener(callback, ...activators),
   );
   useEffect(() => {
-    controller.update(onEnter, ...activators);
-  }, [activators, onEnter, controller]);
+    controller.update(callback, ...activators);
+  }, [activators, callback, controller]);
   return controller;
 };

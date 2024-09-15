@@ -15,7 +15,7 @@ export const useThrottler = <T extends Callback<any[], any>>(
   }, [throttler, callback, wait]);
 
   useUnmount(() => {
-    throttler.clear();
+    throttler.cancel();
   });
 
   return throttler;

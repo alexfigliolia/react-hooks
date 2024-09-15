@@ -8,6 +8,11 @@ A small collection of simple React Hooks you're probably rewriting on a regular 
 5. [useTimeout](#usetimeout) - Execute deferred callbacks that'll automatically clean themselves up when the hook unmounts
 6. [useAnimationFrame](#useanimationframe) - Execute callbacks in `requestAnimationFrame` that'll automatically stop/cancel if the hook unmounts
 7. [useController](#useController) - Maintains a stable reference to an object instance (created by a component) between renders
+8. [useDebouncer](#useDebouncer) - Given a callback and a wait period, returns a debounced implementation of that callback. The scheduled callback will automatically cancel if the component unmounts.
+9. [useThrottler](#useThrottler) - Given a callback and a wait period, returns a throttled implementation of that callback
+10. [useLocale](#useLocale) - Returns the user's specified locale and rerenders whenever it changes
+11. [useFocusedKeyListener](#useFocusedKeyListener) - A hook that will respond to keydown events if target element comes into focus 
+12. [useWindowSize](#useWindowSize) - A hook that returns the current dimensions of the window object. When the window is undefined (in SSR environments), the height and width dimensions are set to zero
 
 ## Installation
 ```bash
@@ -177,7 +182,7 @@ export const ProgressIndicator = () => {
 ### useController 
 Maintains a stable reference to an object instance (created by a component) between renders
 ```tsx
-import { FormEvent, ChangeEvent, useEffect } from "react";
+import { FormEvent, ChangeEvent, useEffect, forwardRef, ForwardedRef } from "react";
 import { useController } from "@figliolia/react-hooks";
 
 class FormCtrl {
@@ -208,12 +213,12 @@ class FormCtrl {
   }
 }
 
-export const MyForm = () => {
+export const MyForm = forwardRef(function(_: Propless, ref: ForwardedRef<FormCtrl>) {
   const controller = useController(new FormCtrl());
 
   // To expose your controller to other components:
   useImperativeHandle(
-    /* forwardRef */, 
+    ref,
     () => controller, 
     [controller]
   )
@@ -248,6 +253,109 @@ export const MyForm = () => {
         onClick={controller.onSubmit}>Submit!</button>
     </form>
   );
+});
+```
+
+### useDebouncer
+Given a callback and a wait period, returns a debounced implementation of that callback. The scheduled callback will automatically cancel if the component unmounts.
+```tsx
+const AutoComplete = () => {
+  const input = useRef<HTMLInputElement>(null);
+  const [suggestions, setSuggestions] = useState([]);
+
+  const fetchSuggestions = useCallback(() => {
+    fetch(`/api?search=${input.current.value}`)
+      .then(res => res.json())
+      .then(setSuggestions)
+      .catch(() => {});
+  }, []);
+
+  const fetchMore = useDebouncer(fetchData, 200);
+
+  return (
+    <div>
+      <input 
+        id='search'
+        ref={input}
+        type="search" 
+        placeholder="Search" 
+        onChange={fetchMore}
+        list='searchSuggestions' />
+      <datalist list='searchSuggestions'>
+        {
+          suggestions.map(suggestion => {
+            return (
+              <option key={suggestion} value={suggestion} />
+            );
+          })
+        }
+      </datalist>
+    </div>
+  );
+}
+```
+
+### useThrottler
+Given a callback and a wait period, returns a throttled implementation of that callback
+```tsx
+const ThreeDButton = () => {
+  const button = useRef<HTMLButtonElement>(null);
+  const [rotationX, setRotationX] = useState(0);
+  const [rotationY, setRotationY] = useState(0);
+  const [shadow, setShadow] = useState(`0px 0px 0px rgba(0,0,0,0)`);
+
+  const onMouseMove = useCallback((e: MouseEvent<HTMLButtonElement>) => {
+    const { top, left, width, height } = button.getBoundingClientRect();
+    const X = e.clientX - left;
+    const Y = e.clientY - top;
+    const midX = width / 2;
+    const midY = height / 2;
+    setRotationX((Y - midY) * 0.05);
+    setRotationY((X - midX) * -0.05);
+    setShadow(`${(X - midX) * 0.15}px ${(Y - midY) * 0.15}px ${Math.max(X, Y) / 5}px rgba(0,0,0,0.2)`);
+  }, [])
+
+  const animate = useThrottler(onMouseMove, 100);
+
+  return (
+    <button ref={button} onMouseMove={animate}>
+      3D Button!
+    </button>
+  );
+}
+```
+
+### useLocale
+Returns the user's specified locale and rerenders whenever it changes
+```tsx
+export const useLocalizedNumber = (value: number) => {
+  const locale = useLocale();
+  return useMemo(() => {
+    return new Intl.NumberFormat(locale, {}).format(value);
+  }, [value, locale]);
+}
+```
+
+### useFocusedKeyListener
+A hook that will respond to keydown events if target element comes into focus 
+```tsx
+export const MyAllyComponent = () => {
+  const node = useRef<HTMLDivElement>(null);
+  const onEnter = useCallback(() => {
+    // Take some action when this component is focused
+    // and the user presses the enter key
+  }, []);
+  const onDelete = useCallback(() => {
+    // Take some action when this component is focused
+    // and the user presses the delete key
+  }, []);
+  useFocusedKeyListener(onEnter, "Enter");
+  useFocusedKeyListener(onEnter, "Delete");
+  return (
+    <div ref={node} role="button">
+      {/* ...Markup */}
+    </div>
+  );  
 }
 ```
 

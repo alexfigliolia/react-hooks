@@ -15,7 +15,7 @@ export const useDebouncer = <T extends Callback<any[], any>>(
   }, [debouncer, callback, wait]);
 
   useUnmount(() => {
-    debouncer.clear();
+    debouncer.cancel();
   });
 
   return debouncer;

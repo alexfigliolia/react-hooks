@@ -16,7 +16,7 @@ export abstract class DeferFN<T extends Callback<any[], any>> {
     this.callback = args[0];
   }
 
-  public clear() {
+  public cancel() {
     if (this.ID) {
       clearTimeout(this.ID);
       this.ID = null;
