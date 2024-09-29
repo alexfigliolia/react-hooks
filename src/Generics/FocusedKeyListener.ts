@@ -13,6 +13,10 @@ export class FocusedKeyListener {
     this.keys = new Set(keys.length ? keys : ["Enter"]);
   }
 
+  public destroy() {
+    this.onBlur();
+  }
+
   public onFocus = () => {
     document.addEventListener("keydown", this.onKeyDown);
   };

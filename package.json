@@ -1,6 +1,6 @@
 {
   "name": "@figliolia/react-hooks",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A small collection of simple React Hooks you're probably rewriting on a regular basis",
   "main": "dist/cjs/index.js",
   "scripts": {

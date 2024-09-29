@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { FocusedKeyListener } from "Generics/FocusedKeyListener";
 import type { Callback } from "Types";
 import { useController } from "./useController";
+import { useUnmount } from "./useUnmount";
 
 export const useFocusedKeyListener = (
   callback: Callback,
@@ -14,5 +15,10 @@ export const useFocusedKeyListener = (
   useEffect(() => {
     controller.update(callback, ...activators);
   }, [activators, callback, controller]);
+
+  useUnmount(() => {
+    controller.destroy();
+  });
+
   return controller;
 };
