@@ -10,3 +10,7 @@ export { useClickOutside } from "Hooks/useClickOutside";
 export { useLocale } from "Hooks/useLocale";
 export { useFocusedKeyListener } from "Hooks/useFocusedKeyListener";
 export { useNodeDimensions } from "Hooks/useNodeDimensions";
+export type { AnimationFrame } from "Generics/AnimationFrame";
+export type { Debouncer } from "Generics/Debouncer";
+export type { FocusedKeyListener } from "Generics/FocusedKeyListener";
+export type { Throttler } from "Generics/Throttler";

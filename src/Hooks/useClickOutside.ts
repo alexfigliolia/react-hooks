@@ -5,15 +5,18 @@ export const useClickOutside = <T extends HTMLElement>(
   open: boolean,
   close: Callback,
 ) => {
-  const node = useRef<T>(null);
+  const nodeRef = useRef<T | null>();
+  const ref = useCallback((node: T | null) => {
+    nodeRef.current = node;
+  }, []);
   const callback = useRef<Callback>(close);
   callback.current = close;
 
   const onClickOutside = useCallback((e: MouseEvent | FocusEvent) => {
-    if (!node.current) {
+    if (!nodeRef.current) {
       return false;
     }
-    if (!node.current.contains(e.target as Node)) {
+    if (!nodeRef.current.contains(e.target as Node)) {
       callback.current();
     }
   }, []);
@@ -32,5 +35,5 @@ export const useClickOutside = <T extends HTMLElement>(
     };
   }, [open, onClickOutside]);
 
-  return node;
+  return ref;
 };
