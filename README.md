@@ -13,6 +13,7 @@ A small collection of simple React Hooks you're probably rewriting on a regular 
 10. [useLocale](#useLocale) - Returns the user's specified locale and rerenders whenever it changes
 11. [useFocusedKeyListener](#useFocusedKeyListener) - A hook that will respond to keydown events if target element comes into focus 
 12. [useWindowSize](#useWindowSize) - A hook that returns the current dimensions of the window object. When the window is undefined (in SSR environments), the height and width dimensions are set to zero
+13. [useNodeDimensions](#useNodeDimensions) - A hook that returns a `ref` and a `dimensions` object containing `width` and `height` values. When the provided `ref` is attached to a `DOM` element, the hook will rerender a new `dimensions` object each time the element's `width` or `height` change.
 
 ## Installation
 ```bash
@@ -358,6 +359,26 @@ export const MyAllyComponent = () => {
   );  
 }
 ```
+
+### useNodeDimensions
+ A hook that returns a `ref` and a `dimensions` object containing `width` and `height` values. When the provided `ref` is attached to a `DOM` element, the hook will rerender a new `dimensions` object each time the element's `width` or `height` change.
+ ```tsx
+
+ export const MyResizingComponent = ({ children }) => {
+  const [ref, dimensions] = useNodeDimensions();
+
+  useEffect(() => {
+    if(dimensions) {
+      console.log('This component resized!', dimensions);
+    }
+  }, [dimensions]);
+
+  return (
+    <div ref={ref}>{children}</div>
+  );
+ }
+
+ ```
 
 ## Motivation
 Since migrating to the hooks API at React v16, certain pieces of application functionality became more combersome or repetitive to implement. Such as:
