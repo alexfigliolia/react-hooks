@@ -1,25 +1,32 @@
+import type { MutableRefObject, RefCallback } from "react";
 import { useCallback, useEffect, useRef } from "react";
 import type { Callback } from "Types";
 
-export const useClickOutside = <T extends HTMLElement>(
-  open: boolean,
-  close: Callback,
-) => {
-  const nodeRef = useRef<T | null>();
+export const useClickOutside = <
+  T extends HTMLElement,
+  R extends boolean | undefined,
+>({
+  callback,
+  open = true,
+  refCallback = false,
+}: IUseClickOutsideOptions<R>): ClickOutsideRef<T, R> => {
+  const nodeRef = useRef<T | null>(null);
+
   const ref = useCallback((node: T | null) => {
     nodeRef.current = node;
   }, []);
-  const callback = useRef<Callback>(close);
-  callback.current = close;
 
-  const onClickOutside = useCallback((e: MouseEvent | FocusEvent) => {
-    if (!nodeRef.current) {
-      return false;
-    }
-    if (!nodeRef.current.contains(e.target as Node)) {
-      callback.current();
-    }
-  }, []);
+  const onClickOutside = useCallback(
+    (e: MouseEvent | FocusEvent) => {
+      if (!nodeRef.current) {
+        return;
+      }
+      if (!nodeRef.current.contains(e.target as Node)) {
+        callback();
+      }
+    },
+    [callback],
+  );
 
   useEffect(() => {
     if (open) {
@@ -33,7 +40,22 @@ export const useClickOutside = <T extends HTMLElement>(
       document.removeEventListener("click", onClickOutside);
       document.removeEventListener("focusin", onClickOutside);
     };
-  }, [open, onClickOutside]);
+  }, [onClickOutside, open]);
 
-  return ref;
+  if (refCallback) {
+    return ref as ClickOutsideRef<T, R>;
+  }
+
+  return nodeRef as ClickOutsideRef<T, R>;
 };
+
+export type ClickOutsideRef<
+  T extends HTMLElement,
+  R extends boolean | undefined,
+> = R extends true ? RefCallback<T> : MutableRefObject<T | null>;
+
+export interface IUseClickOutsideOptions<R extends boolean | undefined> {
+  open?: boolean;
+  refCallback?: R;
+  callback: Callback;
+}

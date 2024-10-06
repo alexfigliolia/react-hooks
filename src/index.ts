@@ -6,7 +6,7 @@ export * from "Hooks/useFormState";
 export { useAnimationFrame } from "Hooks/useAnimationFrame";
 export { useTimeout } from "Hooks/useTimeout";
 export { useWindowSize } from "Hooks/useWindowSize";
-export { useClickOutside } from "Hooks/useClickOutside";
+export * from "Hooks/useClickOutside";
 export { useLocale } from "Hooks/useLocale";
 export { useFocusedKeyListener } from "Hooks/useFocusedKeyListener";
 export { useNodeDimensions } from "Hooks/useNodeDimensions";
