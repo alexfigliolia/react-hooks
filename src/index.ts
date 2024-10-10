@@ -3,6 +3,8 @@ export { useUnmount } from "Hooks/useUnmount";
 export { useController } from "Hooks/useController";
 export * from "Hooks/useLoadingState";
 export * from "Hooks/useFormState";
+export { useDebouncer } from "Hooks/useDebouncer";
+export { useThrottler } from "Hooks/useThrottler";
 export { useAnimationFrame } from "Hooks/useAnimationFrame";
 export { useTimeout } from "Hooks/useTimeout";
 export { useWindowSize } from "Hooks/useWindowSize";
