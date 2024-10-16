@@ -6,6 +6,11 @@ export class Debouncer<T extends Callback<any[], any>> extends DeferFN<T> {
     this.cancel();
     this.ID = setTimeout(() => {
       this.callback(...args);
+      this.cancel();
     }, this.wait);
   };
+
+  public get hasActionPending() {
+    return !!this.ID;
+  }
 }
