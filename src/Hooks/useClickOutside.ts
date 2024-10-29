@@ -22,7 +22,7 @@ export const useClickOutside = <
         return;
       }
       if (!nodeRef.current.contains(e.target as Node)) {
-        callback();
+        callback(e);
       }
     },
     [callback],
@@ -30,8 +30,8 @@ export const useClickOutside = <
 
   useEffect(() => {
     if (open) {
-      document.addEventListener("click", onClickOutside);
-      document.addEventListener("focusin", onClickOutside);
+      document.addEventListener("click", onClickOutside, { passive: true });
+      document.addEventListener("focusin", onClickOutside, { passive: true });
     } else {
       document.removeEventListener("click", onClickOutside);
       document.removeEventListener("focusin", onClickOutside);
@@ -57,5 +57,5 @@ export type ClickOutsideRef<
 export interface IUseClickOutsideOptions<R extends boolean | undefined> {
   open?: boolean;
   refCallback?: R;
-  callback: Callback;
+  callback: Callback<[e: MouseEvent | FocusEvent]>;
 }
