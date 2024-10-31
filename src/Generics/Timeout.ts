@@ -7,6 +7,7 @@ export class Timeout {
     const ID = setTimeout(() => {
       callback();
     }, delay);
+    this.IDs.add(ID);
     return () => {
       this.clear(ID);
     };
