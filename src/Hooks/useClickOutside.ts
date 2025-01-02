@@ -1,4 +1,4 @@
-import type { MutableRefObject, RefCallback } from "react";
+import type { RefCallback, RefObject } from "react";
 import { useCallback, useEffect, useRef } from "react";
 import type { Callback } from "Types";
 
@@ -56,7 +56,7 @@ export const useClickOutside = <
 export type ClickOutsideRef<
   T extends HTMLElement,
   R extends boolean | undefined,
-> = R extends true ? RefCallback<T> : MutableRefObject<T | null>;
+> = R extends true ? RefCallback<T> : RefObject<T>;
 
 export interface IUseClickOutsideOptions<R extends boolean | undefined> {
   open?: boolean;
