@@ -10,22 +10,26 @@ export const useClickOutside = <
   open = true,
   refCallback = false,
 }: IUseClickOutsideOptions<R>): ClickOutsideRef<T, R> => {
+  const node = useRef<T>(null);
   const nodeRef = useRef<T | null>(null);
 
   const ref = useCallback((node: T | null) => {
     nodeRef.current = node;
   }, []);
 
+  const getNode = useCallback(() => node.current || nodeRef.current, []);
+
   const onClickOutside = useCallback(
     (e: MouseEvent | FocusEvent) => {
-      if (!nodeRef.current) {
+      const node = getNode();
+      if (!node) {
         return;
       }
-      if (!nodeRef.current.contains(e.target as Node)) {
+      if (!node.contains(e.target as Node)) {
         callback(e);
       }
     },
-    [callback],
+    [callback, getNode],
   );
 
   useEffect(() => {
@@ -46,7 +50,7 @@ export const useClickOutside = <
     return ref as ClickOutsideRef<T, R>;
   }
 
-  return nodeRef as ClickOutsideRef<T, R>;
+  return node as ClickOutsideRef<T, R>;
 };
 
 export type ClickOutsideRef<
