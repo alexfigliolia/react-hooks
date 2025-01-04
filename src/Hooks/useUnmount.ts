@@ -5,9 +5,10 @@ export const useUnmount = (onUnmount: Callback) => {
   const callback = useRef<Callback | null>(null);
   callback.current = onUnmount;
   useEffect(() => {
+    const { current: fn } = callback;
     return () => {
-      if (callback.current) {
-        callback.current();
+      if (fn) {
+        fn();
         callback.current = null;
       }
     };
