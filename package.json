@@ -1,6 +1,6 @@
 {
   "name": "@figliolia/react-hooks",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A small collection of simple React Hooks you're probably rewriting on a regular basis",
   "main": "dist/cjs/index.js",
   "scripts": {
@@ -28,10 +28,10 @@
   "author": "Alex Figliolia",
   "license": "MIT",
   "dependencies": {
-    "@figliolia/size-observer": "^1.0.3"
+    "@figliolia/size-observer": "^2.1.0"
   },
   "peerDependencies": {
-    "@figliolia/size-observer": "^1.0.3",
+    "@figliolia/size-observer": "^2.1.0",
     "react": "^18.3.1"
   },
   "devDependencies": {

@@ -161,10 +161,10 @@
   resolved "https://registry.yarnpkg.com/@figliolia/child-process/-/child-process-1.0.4.tgz#5337c847f43a08ff9e1124793fa650f746515da5"
   integrity sha512-midiGoIu0pO9q+T607iYFSsEFSg6XlWJ7REaGcX/mCuxgrr8hudGSPz4OzyXznVUlp1UwaVTjfgYHlSUxuaJXg==
 
-"@figliolia/size-observer@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@figliolia/size-observer/-/size-observer-1.0.3.tgz#ad2f0fbdc9ab0f874f9bbc9cca981f410b58b7ce"
-  integrity sha512-qB8QrxvBbo8TjTWbxd0kkZ8m29pXCRDsk84hj3IhIky/tzB7B6KVg6AmKyXt4hhHFbz+KGV3DB3NylUNFg8HTA==
+"@figliolia/size-observer@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@figliolia/size-observer/-/size-observer-2.1.0.tgz#3f34ba60f9fca129991cab7875e6b130daaa3e98"
+  integrity sha512-59VTKtXoP/SSNHehctcaOLkuSDENojm4cErnChYBuApmhj8Wi0I3Y02/V5duJVfa30Agzzar5KnT/RSgYG+ERQ==
 
 "@figliolia/ts-packager@^1.2.1":
   version "1.2.1"
