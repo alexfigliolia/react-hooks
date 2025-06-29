@@ -1,7 +1,10 @@
 import { useCallback, useLayoutEffect, useState } from "react";
 
 const getDimensions = () => {
-  return { width: window?.innerWidth ?? 0, height: window?.innerHeight ?? 0 };
+  if (typeof window === "undefined") {
+    return { width: 0, height: 0 };
+  }
+  return { width: window.innerWidth, height: window.innerHeight };
 };
 
 export const useWindowSize = () => {
