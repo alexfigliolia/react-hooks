@@ -9,8 +9,8 @@ export class FloatingTaskManager<
   protected tokens = new Set<V>();
   protected cancel: Callback<[V]>;
   constructor(schedule: F, cancel: Callback<[V]>) {
-    this.schedule = schedule;
-    this.cancel = cancel;
+    this.schedule = schedule.bind(globalThis) as F;
+    this.cancel = cancel.bind(globalThis);
   }
 
   public execute(...args: Parameters<F>) {
