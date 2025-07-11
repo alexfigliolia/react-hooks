@@ -1,6 +1,6 @@
 {
   "name": "@figliolia/react-hooks",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "A small collection of simple React Hooks you're probably rewriting on a regular basis",
   "main": "dist/cjs/index.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "useController",
     "useTimeout",
     "useAnimationFrame",
+    "useIdleCallback",
     "useLoadingState",
     "useFormState",
     "useNodeDimensions",
@@ -32,10 +33,10 @@
   },
   "peerDependencies": {
     "@figliolia/size-observer": "^2.1.0",
-    "react": "^18.3.1"
+    "react": "^18.0 || ^19"
   },
   "devDependencies": {
-    "@figliolia/child-process": "^1.0.1",
+    "@figliolia/child-process": "^1.0.4",
     "@figliolia/ts-packager": "^1.2.1",
     "@types/node": "^20.11.19",
     "@types/react": "^18.2.66",
@@ -54,7 +55,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unused-imports": "3",
     "prettier": "^3.2.4",
-    "react": "^18.3.1",
+    "react": "^18.0 || ^19",
     "tsc-alias": "^1.8.8",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3"

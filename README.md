@@ -7,6 +7,7 @@ A small collection of simple React Hooks you're probably rewriting on a regular 
 4. [useFormState](#useformstate) - Provides a controller with access to form data, loading, error, and success states for a form submission
 5. [useTimeout](#usetimeout) - Execute deferred callbacks that'll automatically clean themselves up when the hook unmounts
 6. [useAnimationFrame](#useanimationframe) - Execute callbacks in `requestAnimationFrame` that'll automatically stop/cancel if the hook unmounts
+6. [useIdleCallback](#useidlecallback) - Execute browser-idle callbacks in `requestIdleCallback` that'll automatically stop/cancel if the hook unmounts
 7. [useController](#useController) - Maintains a stable reference to an object instance (created by a component) between renders
 8. [useDebouncer](#useDebouncer) - Given a callback and a wait period, returns a debounced implementation of that callback. The scheduled callback will automatically cancel if the component unmounts.
 9. [useThrottler](#useThrottler) - Given a callback and a wait period, returns a throttled implementation of that callback
@@ -175,6 +176,33 @@ export const ProgressIndicator = () => {
         className="progress-bar"
         style={{ width: `${progress}%` }}>
     </>
+  );
+}
+```
+
+### useIdleCallback 
+Execute callbacks in `requestIdleCallback` that'll automatically stop/cancel if the hook unmounts. Please refer to [this chart](https://caniuse.com/requestidlecallback) to decide whether or not polyfilling the API is necessary 
+```tsx
+import { useIdleCallback } from "@figliolia/react-hooks";
+
+export const BackgroundTaskScheduler = ({ task }) => {
+  const [count, setCount] = useState(0);
+  const manager = useIdleCallback();
+
+  const scheduleTask = useCallback(() => {
+    manager.execute(() => {
+      task();
+      // do some background tasks
+    }, 
+    // optionally supply a task deadline
+    { timeout: 3000 }
+    );
+    // If BackgroundTaskScheduler unmounts, all pending calls to 
+    // manager.execute() are cancelled
+  }, [task]);
+
+  return (
+    <button onClick={onClick}>Schedule Task</button>
   );
 }
 ```

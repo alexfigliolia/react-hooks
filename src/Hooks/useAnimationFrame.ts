@@ -1,15 +1,6 @@
-import { useEffect } from "react";
 import { AnimationFrame } from "Generics/AnimationFrame";
-import { useController } from "./useController";
+import { useFloatingTaskManager } from "./useFloatingTaskManager";
 
 export const useAnimationFrame = () => {
-  const manager = useController(new AnimationFrame());
-
-  useEffect(() => {
-    return () => {
-      manager.abortAll();
-    };
-  }, [manager]);
-
-  return manager;
+  return useFloatingTaskManager(AnimationFrame);
 };
