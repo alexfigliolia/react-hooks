@@ -15,6 +15,7 @@ A small collection of simple React Hooks you're probably rewriting on a regular 
 11. [useFocusedKeyListener](#useFocusedKeyListener) - A hook that will respond to keydown events if target element comes into focus 
 12. [useWindowSize](#useWindowSize) - A hook that returns the current dimensions of the window object. When the window is undefined (in SSR environments), the height and width dimensions are set to zero
 13. [useNodeDimensions](#useNodeDimensions) - A hook that returns a `ref` and a `dimensions` object containing `width` and `height` values. When the provided `ref` is attached to a `DOM` element, the hook will rerender a new `dimensions` object each time the element's `width` or `height` change.
+14. [useMergedRefs](#useMergedRefs) - A hook that accepts any number of ref callbacks or ref objects and returns a single ref callback. Useful for when managing multiple refs that need to a attach to a single component
 
 ## Installation
 ```bash
@@ -405,8 +406,19 @@ export const MyAllyComponent = () => {
     <div ref={ref}>{children}</div>
   );
  }
+```
 
- ```
+### useMergedRefs
+A hook that accepts any number of ref callbacks or ref objects and returns a single ref callback. Useful for when managing multiple refs that need to a attach to a single component
+ ```tsx
+export const MyComponent = ({ children, forwardedRef }) => {
+  const [ref, dimensions] = useNodeDimensions();
+  const mergedRefs = useMergedRefs(ref, forwardedRef);
+  return (
+    <div ref={mergedRefs}>{children}</div>
+  );
+}
+```
 
 ## Motivation
 Since migrating to the hooks API at React v16, certain pieces of application functionality became more combersome or repetitive to implement. Such as:

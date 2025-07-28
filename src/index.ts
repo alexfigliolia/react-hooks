@@ -20,3 +20,4 @@ export { FocusedKeyListener } from "Generics/FocusedKeyListener";
 export { Throttler } from "Generics/Throttler";
 export { DeferFN } from "Generics/DeferFN";
 export { Timeout } from "Generics/Timeout";
+export { useMergedRefs } from "./Hooks/useMergedRefs";
