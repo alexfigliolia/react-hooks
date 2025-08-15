@@ -309,8 +309,8 @@ const AutoComplete = () => {
         ref={input}
         type="search" 
         placeholder="Search" 
-        onChange={fetchMore}
-        list='searchSuggestions' />
+        list='searchSuggestions'
+        onChange={fetchMore.execute} />
       <datalist list='searchSuggestions'>
         {
           suggestions.map(suggestion => {
@@ -345,10 +345,17 @@ const ThreeDButton = () => {
     setShadow(`${(X - midX) * 0.15}px ${(Y - midY) * 0.15}px ${Math.max(X, Y) / 5}px rgba(0,0,0,0.2)`);
   }, [])
 
-  const animate = useThrottler(onMouseMove, 100);
+  const animator = useThrottler(onMouseMove, 100);
 
   return (
-    <button ref={button} onMouseMove={animate}>
+    <button 
+      ref={button} 
+      onMouseMove={animator.execute} 
+      style={{ 
+        boxShadow: shadow,
+        transform: `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`,
+      }}
+    >
       3D Button!
     </button>
   );
