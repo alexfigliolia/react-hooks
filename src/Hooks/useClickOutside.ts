@@ -1,6 +1,7 @@
 import type { RefCallback, RefObject } from "react";
 import { useCallback, useEffect, useRef } from "react";
 import type { Callback } from "Types";
+import { useMergedRefs } from "./useMergedRefs";
 
 export const useClickOutside = <
   T extends HTMLElement,
@@ -11,25 +12,19 @@ export const useClickOutside = <
   refCallback = false,
 }: IUseClickOutsideOptions<R>): ClickOutsideRef<T, R> => {
   const node = useRef<T>(null);
-  const nodeRef = useRef<T | null>(null);
 
-  const ref = useCallback((node: T | null) => {
-    nodeRef.current = node;
-  }, []);
-
-  const getNode = useCallback(() => node.current || nodeRef.current, []);
+  const ref = useMergedRefs(node);
 
   const onClickOutside = useCallback(
     (e: MouseEvent | FocusEvent) => {
-      const node = getNode();
-      if (!node) {
+      if (!node.current) {
         return;
       }
-      if (!node.contains(e.target as Node)) {
+      if (!node.current.contains(e.target as Node)) {
         callback(e);
       }
     },
-    [callback, getNode],
+    [callback],
   );
 
   useEffect(() => {
